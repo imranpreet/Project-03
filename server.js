@@ -19,11 +19,37 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(logger);
 
+// Root route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Fitness Challenge Tracker API',
+    version: '1.0.0',
+    status: 'Server is running ✅',
+    endpoints: {
+      auth: '/api/auth',
+      users: '/api/users',
+      challenges: '/api/challenges',
+      progress: '/api/progress'
+    },
+    documentation: 'See GitHub repo for complete API documentation'
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/challenges', challengeRoutes);
 app.use('/api/progress', progressRoutes);
+
+// 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Route not found',
+    path: req.path,
+    method: req.method,
+    message: 'Check /api/auth, /api/users, /api/challenges, or /api/progress'
+  });
+});
 
 app.use(errorHandler);
 
