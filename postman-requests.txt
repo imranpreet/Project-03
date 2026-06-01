@@ -1,0 +1,57 @@
+Important testing URLs (assuming server runs on http://localhost:5000):
+
+1) Register
+POST http://localhost:5000/api/auth/register
+Body (JSON):
+{
+  "name": "Alice",
+  "email": "alice@example.com",
+  "password": "password123"
+}
+
+2) Login
+POST http://localhost:5000/api/auth/login
+Body (JSON):
+{
+  "email": "alice@example.com",
+  "password": "password123"
+}
+
+Response gives: { token, user }
+
+Set header for protected requests:
+Authorization: Bearer <token>
+
+3) Create Challenge (protected)
+POST http://localhost:5000/api/challenges
+Body (JSON):
+{
+  "title": "30 Day Run Streak",
+  "description": "Run at least 3km every day",
+  "startDate": "2026-05-10",
+  "endDate": "2026-06-09"
+}
+
+4) List Challenges
+GET http://localhost:5000/api/challenges
+
+5) Get Challenge
+GET http://localhost:5000/api/challenges/:id
+
+6) Join Challenge (protected)
+POST http://localhost:5000/api/challenges/:id/join
+
+7) Add Progress (protected)
+POST http://localhost:5000/api/progress
+Body (JSON):
+{
+  "challenge": "<challengeId>",
+  "date": "2026-05-11",
+  "note": "Ran 5km"
+}
+
+8) Get user progress (protected)
+GET http://localhost:5000/api/progress/user/:userId
+
+
+Use Postman or curl with Authorization header for protected routes. Save these endpoints into a Postman collection for the viva.
